@@ -23,7 +23,7 @@
 # $Id$
 #
 
-SUBDIRS = m4 config include lib intl src doc po
+SUBDIRS = m4 config include intl src doc
 
 ACLOCAL_AMFLAGS = -I m4
 

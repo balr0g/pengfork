@@ -140,7 +140,7 @@ penggy 0.2.1 INSTALL instructions
       [AnAlternativeOne]	          
       ....
 	      
-  The file /etc/penggy/penggy.cfg is self-documented but the most commonly
+  The file /etc/penggy/penggy.conf is self-documented but the most commonly
   used options are:
 
     screen_name = [YourScreenName]

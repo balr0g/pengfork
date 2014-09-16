@@ -42,7 +42,6 @@
 #endif
 
 #include <libguile.h>
-#include <guile/gh.h>
 
 #include "options.h"
 #include "log.h"
@@ -76,7 +75,7 @@ chat_send (string)
   unsigned char *p;
   int len;
 
-  text = gh_scm2newstr (string, &len);
+  text = scm_to_locale_stringn (string, &len);
   print = strdup(text);
   p=print;
   while(*p != '\0')
@@ -106,7 +105,7 @@ compare_elem (buffer, elem, result)
   char *text, *textmin, *bufmin;
   int len;
 
-  text = gh_scm2newstr (SCM_CAR (elem), &len);
+  text = scm_to_locale_stringn (SCM_CAR (elem), &len);
   /* duplicate and lowerize all strings to become case insensitive */
   bufmin = strdup (buffer);
   textmin = strdup (text);
@@ -117,11 +116,7 @@ compare_elem (buffer, elem, result)
     {
       log (LOG_NOTICE, _("Script: String '%s' matched\n"), text);
       /* evaluate next elem */
-#if HAVE_R5RS_EVAL
       *result = scm_eval (SCM_CADR (elem), scm_current_module());
-#else
-      *result = scm_eval (SCM_CADR (elem));
-#endif
       match = 1;
     }
   free (bufmin);
@@ -152,7 +147,7 @@ compare_buf (buffer, first, others, result)
       elem = SCM_CAR (remainder);
       remainder = SCM_CDR (remainder);
     }
-  while (gh_length (remainder) > 0 && !found);
+  while (scm_to_size_t(scm_length(remainder)) > 0 && !found);
 
   /* treat the last element only if it isn't an else */
   if (!found && SCM_STRINGP (elem))
@@ -170,7 +165,7 @@ do_else (others, result)
 {
   SCM elem;
   log (LOG_NOTICE, _("Script: No string matched\n"));
-  if (gh_length (others) > 0)
+  if (scm_to_size_t(scm_length(others)) > 0)
     {
       elem = SCM_CAR (scm_reverse (others));
     }
@@ -194,7 +189,7 @@ chat_try (timeout, first, others)
   int nread;
   int end;
 
-  t = gh_scm2int (timeout);
+  t = scm_to_int (timeout);
   result = SCM_UNDEFINED;
   p = buffer;
   nread = 0;
@@ -214,7 +209,7 @@ chat_try (timeout, first, others)
       else
         {
           /* treat the else case */
-          do_else (others, result);
+          do_else (others, &result);
           end = 1;
         }
     }
@@ -235,33 +230,16 @@ chat_connect (filename)
   SCM result = SCM_UNDEFINED;
   SCM connect;
 
-  /*#if HAVE_SCM_C_DEFINE_GSUBR
   scm_c_define_gsubr ("chat-success", 0, 0, 0, chat_success);
   scm_c_define_gsubr ("chat-failure", 0, 0, 0, chat_failure);
   scm_c_define_gsubr ("chat-send", 1, 0, 0, chat_send);
   scm_c_define_gsubr ("chat-try", 2, 0, 1, chat_try);
-  #els*/
-#if HAVE_GH_NEW_PROCEDURE
-  gh_new_procedure ("chat-success", chat_success, 0, 0, 0);
-  gh_new_procedure ("chat-failure", chat_failure, 0, 0, 0);
-  gh_new_procedure ("chat-send",  chat_send, 1, 0, 0);
-  gh_new_procedure ("chat-try", chat_try, 2, 0, 1);
-#endif
 
-  /*#if HAVE_SCM_C_PRIMITIVE_LOAD
   scm_c_primitive_load (filename);
-  #els*/
-#if HAVE_GH_EVAL_FILE
-  gh_eval_file(filename);
-#endif
 
-  /*#if HAVE_SCM_C_LOOKUP
-    connect = scm_c_lookup ("chat-connect");
-#els */
-#if HAVE_GH_LOOKUP
-  connect = gh_lookup ("chat-connect");
-#endif
-  result = gh_call0 (connect);
+  connect = scm_c_lookup ("chat-connect");
+
+  result = scm_call_0 (connect);
 
   if (!scm_boolean_p (result))
     {

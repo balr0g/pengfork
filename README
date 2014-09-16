@@ -12,3 +12,19 @@ To get help, write to the following mailing lists :
   <pengfork-devel@mail.freesoftware.fsf.org>
 or visit the bulletin board at:
   http://www.peng.apinc.org/forum/
+
+
+===================
+Recommended config settings:
+
+lock_path = /tmp
+pid_file = /tmp/penggy.pid
+access_method = tcpip
+
+screen_name = SCREEN_NAME_HERE
+
+place a line as follows in the aol.secrets file:
+
+SCREEN_NAME_HERE        PASSWORD_HERE
+
+It seems sometimes it's necessary to be connected with an AOL client when attempting to connect with pengfork.

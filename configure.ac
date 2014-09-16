@@ -24,7 +24,7 @@
 #
 
 # Autoconf 2.53 needed so that buggy PATH_SEPARATOR is fixed.
-AC_PREREQ(2.53)
+AC_PREREQ(2.59)
 
 AC_INIT(penggy, 0.2.1+CVS)
 AC_CONFIG_HEADER([include/config.h])
@@ -126,7 +126,6 @@ AC_CHECK_FUNCS([bzero nl_langinfo select strchr strcspn strrchr])
 AC_CHECK_FUNC(getopt_long,, [
   AC_LIBOBJ(getopt)
   AC_LIBOBJ(getopt1)
-  AC_CONFIG_LINKS([include/getopt.h:lib/getopt.h])
 ])
 AC_SEARCH_LIBS(socket, socket)
 AC_SEARCH_LIBS(inet_ntoa, nsl)
@@ -357,7 +356,6 @@ if test "$tun" != yes; then
 ])
 fi
 
-AC_CONFIG_LINKS([include/gettext.h:lib/gettext.h])
 
 DEFAULT_INCLUDES="-I\$(top_builddir)/include -I\$(top_builddir)/intl"
 
@@ -379,7 +377,6 @@ AC_CONFIG_FILES([Makefile
                  include/tcpip/Makefile
                  include/tun/Makefile
                  intl/Makefile
-                 lib/Makefile
                  m4/Makefile
                  src/Makefile
                  src/cable/Makefile
@@ -392,10 +389,6 @@ AC_CONFIG_FILES([Makefile
                  src/p3/Makefile
                  src/tcpip/Makefile
                  src/tun/Makefile
-                 po/Makefile.in
                  doc/Makefile
-                 doc/config/Makefile
-                 doc/manpage/Makefile
-                 doc/manpage/en/Makefile
-                 doc/manpage/fr/Makefile])
+                 doc/config/Makefile])
 AC_OUTPUT

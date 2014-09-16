@@ -24,5 +24,5 @@
 #
 
 
-SUBDIRS = config manpage
+SUBDIRS = config
 
