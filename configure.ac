@@ -106,7 +106,7 @@ AC_TYPE_SIZE_T
 AC_HEADER_TIME
 AC_HEADER_SYS_WAIT
 AC_HEADER_STAT
-AC_CHECK_TYPE([in_addr_t],, [AC_DEFINE([in_addr_t], [int], [Define to `int' if <sys/types.h> does not define.])])
+AC_CHECK_TYPE([in_addr_t],, [AC_DEFINE([in_addr_t], [int], [Define to `int' if <netinet/in.h> does not define.])], [[#include <netinet/in.h>]])
 
 # Checks for library functions.
 AM_GNU_GETTEXT
@@ -190,7 +190,7 @@ if test "$modem" = yes; then
   AC_DEFINE([ENABLE_MODEM], 1,[ Enable/disable modem driver ])
   GUILE_FLAGS
   CFLAGS="$CFLAGS $GUILE_CFLAGS"
-  LDFLAGS="$LDFLAGS $GUILE_LDFLAGS"
+  LIBS="$LIBS $GUILE_LDFLAGS"
   AC_MSG_CHECKING(whether scm_eval conforms to R5RS)
   AC_CACHE_VAL(guile_r5rs_eval, [
     AC_TRY_COMPILE([#include <guile/gh.h>], [SCM e, m; scm_eval(e, m);],

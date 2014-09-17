@@ -43,4 +43,4 @@ noinst_HEADERS = 	access.h	\
 			utils.h
 
 SUBDIRS = fdo iptunnel modem cable dsl tcpip tun p3 flap
-DISTCLEANFILES = gettext.h getopt.h libintl.h
+DISTCLEANFILES = getopt.h libintl.h
