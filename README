@@ -20,7 +20,7 @@ autoreconf -I m4
 make
 
 The penggy binary will be in prefix/sbin. Modify prefix/etc/penggy/penggy.conf and prefix/etc/penggy/aol-secrets as explained below.
-
+You will need a tun device to run it. It should suffice to run ip tuntap add tun0 mode tun on Linux, or install and load the tun/tap kexts on Mac OS X.
 ===================
 Recommended config settings:
 
