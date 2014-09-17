@@ -13,6 +13,13 @@ To get help, write to the following mailing lists :
 or visit the bulletin board at:
   http://www.peng.apinc.org/forum/
 
+===================
+Building:
+autoreconf -I m4
+./configure # (add --prefix=/path/to/prefix if you don't want it in the default location)
+make
+
+The penggy binary will be in prefix/sbin. Modify prefix/etc/penggy/penggy.conf and prefix/etc/penggy/aol-secrets as explained below.
 
 ===================
 Recommended config settings:
@@ -23,7 +30,7 @@ access_method = tcpip
 
 screen_name = SCREEN_NAME_HERE
 
-place a line as follows in the aol.secrets file:
+place a line as follows in the aol-secrets file:
 
 SCREEN_NAME_HERE        PASSWORD_HERE
 
